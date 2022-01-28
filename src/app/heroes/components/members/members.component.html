@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col" *ngFor="let member of members">
+      <div class="card h-100" style="min-width: 203px">
+        <div class="card-body">
+          <h5 class="card-title">{{ member.name }}</h5>
+        </div>
+        <img [src]="member.image.url" class="card-img-top" [alt]="" />
+        <div class="card-body">
+          <p class="card-text">textoooo</p>
+          <div class="d-flex justify-content-between">
+            <a href="#" class="btn btn-primary col-5" style="min-width: 80px"
+              >Details</a
+            >
+            <a
+              class="btn btn-secondary col-5"
+              style="min-width: 80px"
+              (click)="deleteMember(member.id)"
+              >Delete</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

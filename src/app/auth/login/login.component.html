@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="row vh-100 justify-content-center align-items-center">
+    <div class="col-auto">
+      <form [formGroup]="loginForm" (ngSubmit)="login()" id="loginform">
+        <div class="input-group p-2">
+          <label for="staticEmail2" class="visually-hidden">Email</label>
+          <input
+            type="text"
+            class="form-control"
+            id="email"
+            placeholder="email"
+            formControlName="email"
+          />
+        </div>
+
+        <div class="input-group p-2">
+          <label for="Password" class="visually-hidden">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="Password"
+            placeholder="Password"
+            formControlName="password"
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Sign In</button>
+      </form>
+    </div>
+  </div>
+</div>

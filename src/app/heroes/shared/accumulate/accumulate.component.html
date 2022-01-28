@@ -1,0 +1,13 @@
+<div class="container pt-4">
+  <div class="row row-cols-1 row-cols-md-3">
+    <div
+      class="col d-flex justify-content-evenly align-items-start"
+      *ngFor="let power of teamService.powerstats | keyvalue: returnZero"
+    >
+      <p class="col-4">{{ power.key }}</p>
+    <div class="col-4">
+      <span class="badge bg-primary rounded-pill">{{ power.value }}</span>
+    </div>
+    </div>
+  </div>
+</div>
