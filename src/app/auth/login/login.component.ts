@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-// import { Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import {AuthService} from 'src/app/heroes/services/auth.service';
 
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   });
 
   constructor(
-    // private router: Router,
+    private router: Router,
     private fb: FormBuilder,
     private authService: AuthService
   ) {}
@@ -26,8 +26,8 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.authService.login(this.loginForm.value).subscribe({
-      next: (res) => {
-        console.log(res);
+      next: () => {
+       this.router.navigate(['/heroes/home'])
       },
       error: (err) => {
         console.log(err);

@@ -1,31 +1,54 @@
 import { Component, OnInit } from '@angular/core';
-import {TeamService} from '../../services/team.service';
+import { FormBuilder, Validators } from '@angular/forms';
+import { SearchService } from '../../services/search.service';
+import { TeamService } from '../../services/team.service';
 
 @Component({
   selector: 'app-add-heroes',
   templateUrl: './add-heroes.component.html',
-  styleUrls: ['./add-heroes.component.css']
+  styleUrls: ['./add-heroes.component.css'],
 })
 export class AddHeroesComponent implements OnInit {
+  public searchForm = this.fb.group({
+    search: ['', Validators.required],
+  });
 
-  constructor(private teamService: TeamService) {
+  public heroes: any = [];
+
+  constructor(
+    private fb: FormBuilder,
+    private searchService: SearchService,
+    private teamService: TeamService
+  ) {
     if (!localStorage.getItem('team')) {
       localStorage.setItem('team', '[]');
     }
     this.accumulate();
-    this.average()
+    this.average();
   }
 
   ngOnInit(): void {}
 
+  search() {
+    this.searchService.search(this.searchForm.value.search).subscribe({
+      next: (res) => {
+        this.heroes = res
+      },
+      error: (err) => {
+        console.log(err);
+        this.heroes = []
+      },
+    });
+  }
+
   addMember(id: string) {
-    this.teamService.addMember(id).subscribe({
+    this.searchService.addMember(id).subscribe({
       next: (res) => {
         let members = JSON.parse(localStorage.getItem('team') || '[]');
         members.push(res);
         localStorage.setItem('team', JSON.stringify(members));
         this.accumulate();
-        this.average()
+        this.average();
       },
       error: (err) => {
         console.log(err);

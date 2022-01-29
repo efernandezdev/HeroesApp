@@ -7,8 +7,13 @@
         </div>
         <img [src]="member.image.url" class="card-img-top" [alt]="" />
         <div class="card-body">
-          <p class="card-text">textoooo</p>
-          <div class="d-flex justify-content-between">
+<p class="card-text">Intelligence: {{member.powerstats.intelligence}}</p>
+<p class="card-text">Durability: {{member.powerstats.durability}}</p>
+<p class="card-text">Strength: {{member.powerstats.strength}}</p>
+<p class="card-text">Speed: {{member.powerstats.speed}}</p>
+<p class="card-text">Combat: {{member.powerstats.combat}}</p>
+<p class="card-text">Power: {{member.powerstats.power}}</p>
+<div class="d-flex justify-content-between">
             <a href="#" class="btn btn-primary col-5" style="min-width: 80px"
               >Details</a
             >
