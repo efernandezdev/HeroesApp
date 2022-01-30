@@ -61,7 +61,7 @@ export class AddHeroesComponent implements OnInit {
 
     if (members.length) {
       let acc = members.map(function (member: any) {
-        console.log(member.powerstats);
+        // console.log(member.powerstats);
         return member.powerstats;
       });
 
@@ -80,7 +80,7 @@ export class AddHeroesComponent implements OnInit {
           );
         }
       }
-      console.log('search', newAcc);
+      // console.log('search', newAcc);
       if (acc.length) {
         this.teamService.powerstats = Object.keys(newAcc)
           .sort((member1, member2) => newAcc[member2] - newAcc[member1])
@@ -113,7 +113,7 @@ export class AddHeroesComponent implements OnInit {
         let weight = parseInt(member.appearance.weight[1].split(' ')[0]);
         return [height, weight];
       });
-      console.log(acc);
+      // console.log(acc);
 
       let newAve: any = [];
       if (acc.length) {
@@ -129,7 +129,7 @@ export class AddHeroesComponent implements OnInit {
 
         arrObj.height = values[0];
         arrObj.weight = values[1];
-        console.log(arrObj);
+        // console.log(arrObj);
         this.teamService.average = arrObj;
       }
     } else {

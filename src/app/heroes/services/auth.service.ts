@@ -19,4 +19,12 @@ export class AuthService {
     })
     );
   }
+
+  LoggedIn(){
+  return !!localStorage.getItem('token')
+  }
+
+  logout(){
+  localStorage.removeItem('token')
+  }
 }

@@ -93,7 +93,7 @@ export class MembersComponent implements OnInit {
         let weight = parseInt(member.appearance.weight[1].split(' ')[0]);
         return [height, weight];
       });
-      console.log(acc);
+      // console.log(acc);
 
       let newAve: any = [];
       if (acc.length) {
@@ -109,7 +109,7 @@ export class MembersComponent implements OnInit {
 
         arrObj.height = values[0];
         arrObj.weight = values[1];
-        console.log(arrObj);
+        // console.log(arrObj);
         this.teamService.average = arrObj;
       }
     } else {
