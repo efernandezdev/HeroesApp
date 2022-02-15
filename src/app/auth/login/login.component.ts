@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
-import {AuthService} from 'src/app/heroes/services/auth.service';
-
+import { AuthService } from 'src/app/heroes/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +12,7 @@ import {AuthService} from 'src/app/heroes/services/auth.service';
 })
 export class LoginComponent implements OnInit {
   public loginForm = this.fb.group({
-    email: ['', Validators.required],
+    email: ['', [Validators.required,Validators.email]],
     password: ['', Validators.required],
   });
 
@@ -25,13 +25,25 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   login() {
-    this.authService.login(this.loginForm.value).subscribe({
-      next: () => {
-       this.router.navigate(['/heroes/home'])
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    if (this.loginForm['status'] == 'VALID') {
+      this.loginForm.value['email'] = this.loginForm.value['email'].trim();
+      this.authService.login(this.loginForm.value).subscribe({
+        next: () => {
+          this.router.navigate(['/heroes/home']);
+        },
+        error: (err) => {
+          Swal.fire({
+            icon: 'warning',
+            text: `${err['error']['error']}`,
+          });
+          console.log(err);
+        },
+      });
+    }else{
+          Swal.fire({
+            icon: 'warning',
+            text: `Password and Email are required`,
+          });
+    }
   }
 }

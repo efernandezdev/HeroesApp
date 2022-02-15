@@ -23,7 +23,24 @@
             formControlName="password"
           />
         </div>
-
+        <div class="p-2">
+          <p
+            *ngIf="
+              loginForm.controls.password.status == 'INVALID' &&
+              loginForm.controls.password.touched == true
+            "
+          >
+            Password is required
+          </p>
+          <p
+            *ngIf="
+              loginForm.controls.email.status == 'INVALID' &&
+              loginForm.controls.email.touched == true
+            "
+          >
+            Email is required
+          </p>
+        </div>
         <button type="submit" class="btn btn-primary w-100">Sign In</button>
       </form>
     </div>

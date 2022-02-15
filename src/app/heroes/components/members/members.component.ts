@@ -19,29 +19,31 @@ export class MembersComponent implements OnInit {
   ) {
     if (!localStorage.getItem('team')) {
       localStorage.setItem('team', '[]');
+      localStorage.setItem('bad', '3');
+      localStorage.setItem('good', '3');
     }
     this.accumulate();
     this.average();
-    this.good = teamService.alignmentGood;
-    this.bad = teamService.alignmentBad;
+    this.good = parseInt(localStorage.getItem('good'));
+    this.bad = parseInt(localStorage.getItem('bad'));
     this.members = JSON.parse(localStorage.getItem('team') || '[]');
   }
 
   ngOnInit(): void {}
 
-  open(content:any) {
-    this.modalService.open(content,{ centered: true });
+  open(content: any) {
+    this.modalService.open(content, { centered: true });
   }
 
   deleteMember(id: string, alignment: string) {
     let members = JSON.parse(localStorage.getItem('team') || '[]');
     let newMembers = members.filter((member: any) => member.id !== id);
     if (alignment == 'good') {
-      this.teamService.alignmentGood += 1;
-      this.good = this.teamService.alignmentGood;
+      this.good += 1;
+      localStorage.setItem('good', JSON.stringify(this.good));
     } else if (alignment == 'bad') {
-      this.teamService.alignmentBad += 1;
-      this.bad = this.teamService.alignmentBad;
+      this.bad += 1;
+      localStorage.setItem('bad', JSON.stringify(this.bad));
     }
     this.members = newMembers;
     localStorage.setItem('team', JSON.stringify(newMembers));

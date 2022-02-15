@@ -15,8 +15,6 @@ export class TeamService {
 
   public average: any = { weight: 0, height: 0 };
 
-  public alignmentGood: number = 3;
-  public alignmentBad: number = 3;
 
   constructor() {}
 }

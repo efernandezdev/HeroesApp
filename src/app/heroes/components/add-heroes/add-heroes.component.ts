@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
+
 import { SearchService } from '../../services/search.service';
 import { TeamService } from '../../services/team.service';
 
@@ -24,11 +26,13 @@ export class AddHeroesComponent implements OnInit {
   ) {
     if (!localStorage.getItem('team')) {
       localStorage.setItem('team', '[]');
+      localStorage.setItem('bad', '3');
+      localStorage.setItem('good', '3');
     }
     this.accumulate();
     this.average();
-    this.good = teamService.alignmentGood;
-    this.bad = teamService.alignmentBad;
+    this.good = parseInt(localStorage.getItem('good'));
+    this.bad = parseInt(localStorage.getItem('bad'));
   }
 
   ngOnInit(): void {}
@@ -36,6 +40,7 @@ export class AddHeroesComponent implements OnInit {
   search() {
     this.searchService.search(this.searchForm.value.search).subscribe({
       next: (res) => {
+       if(res["response"] == 'success'){ 
         /////////////
         // Filter heroes to alignment bad or good
         /////////////
@@ -46,26 +51,35 @@ export class AddHeroesComponent implements OnInit {
         );
 
         this.heroes = filterSearch;
+       }else {
+        Swal.fire({
+        icon: 'error',
+        text: `${res["error"]}`
+        })
+       }
       },
-      error: (err) => {
-        console.log(err);
+      error: (error) => {
+        console.log(error);
         this.heroes = [];
       },
     });
   }
 
   addMember(id: string, alignment: string) {
-    
     let members = JSON.parse(localStorage.getItem('team') || '[]');
-    
-    if (!members.some((member:any) => member['id'] === id)) {
+
+    if (!members.some((member: any) => member['id'] === id)) {
       if (this.good != 0 && alignment == 'good') {
         this.searchService.addMember(id).subscribe({
           next: (res) => {
             members.push(res);
             localStorage.setItem('team', JSON.stringify(members));
-            this.teamService.alignmentGood -= 1;
-            this.good = this.teamService.alignmentGood;
+            this.good -= 1;
+            localStorage.setItem('good', JSON.stringify(this.good));
+            Swal.fire({
+              icon: 'success',
+              text: `Added ${res['name']}`,
+            });
             this.accumulate();
             this.average();
           },
@@ -78,8 +92,12 @@ export class AddHeroesComponent implements OnInit {
           next: (res) => {
             members.push(res);
             localStorage.setItem('team', JSON.stringify(members));
-            this.teamService.alignmentBad -= 1;
-            this.bad = this.teamService.alignmentBad;
+            this.bad -= 1;
+            localStorage.setItem('bad', JSON.stringify(this.bad));
+            Swal.fire({
+              icon: 'success',
+              text: `Added ${res['name']}`,
+            });
             this.accumulate();
             this.average();
           },
@@ -88,10 +106,16 @@ export class AddHeroesComponent implements OnInit {
           },
         });
       } else {
-        console.log('Ocupaste todos', alignment);
+        Swal.fire({
+          icon: 'info',
+          text: `All aligment ${alignment} is full`,
+        });
       }
     } else {
-      console.log('Member is in your team');
+      Swal.fire({
+        icon: 'info',
+        text: 'Member is in your team',
+      });
     }
   }
 
