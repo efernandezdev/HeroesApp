@@ -1,26 +1,104 @@
 <div class="container">
-  <div class="row row-cols-1 row-cols-md-3 g-4">
+  <div class="row row-cols-1 row-cols-md-3 g-4 py-4">
     <div class="col" *ngFor="let member of members">
+      <ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">
+            {{ member.name }} / {{ member.biography.aliases[0] }}
+          </h4>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="d('Cross click')"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p>Weigth: {{ member.appearance.weight[1] }}</p>
+          <p>Heigth: {{ member.appearance.height[1] }}</p>
+          <p>
+            Eye Color:
+            {{
+              member.appearance["eye-color"] == "null"
+                ? "-"
+                : member.appearance["eye-color"]
+            }}
+          </p>
+          <p>
+            Hair Color:
+            {{
+              member.appearance["hair-color"] == "null"
+                ? "-"
+                : member.appearance["hair-color"]
+            }}
+          </p>
+          <p>Base: {{ member.work.base }}</p>
+        </div>
+      </ng-template>
       <div class="card h-100" style="min-width: 203px">
         <div class="card-body">
           <h5 class="card-title">{{ member.name }}</h5>
         </div>
-        <img [src]="member.image.url" class="card-img-top" [alt]="" />
+        <img
+          [src]="member.image.url"
+          class="card-img-top"
+          [alt]=""
+          (click)="open(content)"
+        />
         <div class="card-body">
-<p class="card-text">Intelligence: {{member.powerstats.intelligence}}</p>
-<p class="card-text">Durability: {{member.powerstats.durability}}</p>
-<p class="card-text">Strength: {{member.powerstats.strength}}</p>
-<p class="card-text">Speed: {{member.powerstats.speed}}</p>
-<p class="card-text">Combat: {{member.powerstats.combat}}</p>
-<p class="card-text">Power: {{member.powerstats.power}}</p>
-<div class="d-flex justify-content-between">
-            <a href="#" class="btn btn-primary col-5" style="min-width: 80px"
+          <p class="card-text">
+            Intelligence:
+            {{
+              member.powerstats.intelligence == "null"
+                ? 0
+                : member.powerstats.intelligence
+            }}
+          </p>
+          <p class="card-text">
+            Durability:
+            {{
+              member.powerstats.durability == "null"
+                ? 0
+                : member.powerstats.durability
+            }}
+          </p>
+          <p class="card-text">
+            Strength:
+            {{
+              member.powerstats.strength == "null"
+                ? 0
+                : member.powerstats.strength
+            }}
+          </p>
+          <p class="card-text">
+            Speed:
+            {{
+              member.powerstats.speed == "null" ? 0 : member.powerstats.speed
+            }}
+          </p>
+          <p class="card-text">
+            Combat:
+            {{
+              member.powerstats.combat == "null" ? 0 : member.powerstats.combat
+            }}
+          </p>
+          <p class="card-text">
+            Power:
+            {{
+              member.powerstats.power == "null" ? 0 : member.powerstats.power
+            }}
+          </p>
+          <div class="d-flex justify-content-between">
+            <a
+              (click)="open(content)"
+              class="btn btn-primary col-5"
+              style="min-width: 80px"
               >Details</a
             >
             <a
               class="btn btn-secondary col-5"
               style="min-width: 80px"
-              (click)="deleteMember(member.id)"
+              (click)="deleteMember(member.id, member.biography.alignment)"
               >Delete</a
             >
           </div>

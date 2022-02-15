@@ -7,7 +7,6 @@ import { TeamService } from '../../services/team.service';
   styleUrls: ['./accumulate.component.css'],
 })
 export class AccumulateComponent implements OnInit {
-  public members: any;
 
   constructor(public teamService: TeamService) {}
 
